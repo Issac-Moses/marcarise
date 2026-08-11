@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<!--
+  This file is the entry for ALL routes, including /preview/* canvas iframes.
+  Fonts are loaded here as non-blocking <link> tags (not CSS @import, which is render-blocking).
+-->
+<html lang="en" style="height: 100%">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+
+    <meta property="og:title" content="Marca Rise | Creative Digital Agency" />
+    <meta property="og:description" content="Marca Rise is a creative digital agency helping startups, creators and businesses grow through personal branding, web design, UI/UX, graphic design, video editing, software development, social media management, branding strategy, and technical support solutions." />
+    <meta property="og:type" content="website" />
+    <meta
+    property="og:url"
+    content="https://marcarise.in"
+  />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+    name="twitter:title"
+    content="Marca Rise | Creative Digital Agency"
+  />
+    <meta
+    name="twitter:description"
+    content="Premium branding, websites, UI/UX, editing and software solutions for modern businesses and creators."
+  />
+
+<meta
+    name="author"
+    content="Sam & Sanjay | Founders of Marca Rise"
+  />
+    <meta
+  
+    name="keywords"
+  
+    content="
+    Marca Rise,
+    creative digital agency,
+    personal branding,
+    web design agency,
+    UI UX design,
+    graphic design,
+    video editing,
+    reels editing,
+    branding agency,
+    social media management,
+    content strategy,
+    software development,
+    website development,
+    frontend development,
+    backend development,
+    technical support,
+    startup branding,
+    creative agency India,
+    digital marketing agency,
+    business growth agency,
+    founder branding,
+    creative studio,
+    tech solutions
+  
+    "
+/>
+
+<meta name="author" content="Sam & Sanjay | Founders of Marca Rise" />
+
+<meta name="robots" content="index, follow" />
+
+
+     <title>Marca Rise | Creative Digital Agency</title>
+   <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png" />
+    <!-- Non-blocking font bundle: renders with fallback fonts immediately, swaps in when loaded -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" media="print" onload="this.media='all'"
+          href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Fira+Code:wght@300..700&family=Geist+Mono:wght@100..900&family=Geist:wght@100..900&family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=IBM+Plex+Sans:ital,wght@0,100..700;1,100..700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Lora:ital,wght@0,400..700;1,400..700&family=Merriweather:ital,opsz,wght@0,18..144,300..900;1,18..144,300..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Outfit:wght@100..900&family=Oxanium:wght@200..800&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&family=Roboto:ital,wght@0,100..900;1,100..900&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&family=Space+Grotesk:wght@300..700&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap">
+    
+          <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Fira+Code:wght@300..700&family=Geist+Mono:wght@100..900&family=Geist:wght@100..900&family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=IBM+Plex+Sans:ital,wght@0,100..700;1,100..700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Lora:ital,wght@0,400..700;1,400..700&family=Merriweather:ital,opsz,wght@0,18..144,300..900;1,18..144,300..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Outfit:wght@100..900&family=Oxanium:wght@200..800&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&family=Roboto:ital,wght@0,100..900;1,100..900&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&family=Space+Grotesk:wght@300..700&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap"></noscript>
+   <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Marca Rise",
+    "url": "https://marcarise.in",
+    "description": "Creative digital agency offering branding, UI/UX, web design, editing and software solutions.",
+
+    "founder": [
+
+      {
+        "@type": "Person",
+        "name": "Sam",
+        "jobTitle": "Co-Founder & CEO"
+      },
+
+      {
+        "@type": "Person",
+        "name": "Sanjay",
+        "jobTitle": "Co-Founder & COO"
+      }
+
+    ],
+
+    "sameAs": [
+      "https://www.instagram.com/marcarise.in",
+      "https://www.linkedin.com/company/marca-rise/"
+    ]
+  }
+  </script>
+</head>
+  <body style ="height: 100%; margin: 0">
+    <div id ="root" style="height: 100%"></div>
+    <script type ="module" src="/src/main.tsx"></script>
+    
+
+  </body>
+</html>

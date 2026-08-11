@@ -1,0 +1,10 @@
+# Cloudflare Tunnel Configuration for Marcarise
+tunnel: ee691540-93fb-4e24-b576-f8a26994e2a9
+credentials-file: C:\Users\ISSAC MOSES D\.cloudflared\ee691540-93fb-4e24-b576-f8a26994e2a9.json
+
+ingress:
+  - hostname: marcarise.in
+    service: http://localhost:4000
+  - hostname: www.marcarise.in
+    service: http://localhost:4000
+  - service: http_status:404

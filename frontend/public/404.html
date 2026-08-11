@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Marca Rise</title>
+    <script type="text/javascript">
+      // Path-ah preserve panni index.html-ku redirect pannum
+      var pathSegmentsToKeep = 1; // 'marca_rise' repo name-ah skip panna 1 nu kudukanum
+
+      var l = window.location;
+      l.replace(
+        l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
+        l.pathname.split('/').slice(0, 1 + pathSegmentsToKeep).join('/') + '/?/' +
+        l.pathname.split('/').slice(1 + pathSegmentsToKeep).join('/').replace(/&/g, '~and~') +
+        (l.search ? '&' + l.search.replace(/\?/g, '~q~') : '') +
+        l.hash
+      );
+    </script>
+  </head>
+  <body>
+  </body>
+</html>

@@ -1,0 +1,30 @@
+{
+  "summary": "Frontend-only iteration 2 testing for Marca Rise. All 10 requested checks PASS: (1) no mascot images/components anywhere, (2) no floating BookACallWidget or floating WhatsApp, (3) scroll restoration works on every wouter route change (Home->About, ->Services, ->ServiceDetails all land at scrollY=0 from a scrolled state), (4) splash screen appears on first session visit with data-testid='splash-screen' and disappears within ~3s, and is correctly skipped on second visit when sessionStorage.mr_splash_seen='1', (5) page-transition overlay with data-testid='page-transition' appears briefly during route changes (detected via MutationObserver during /services nav), (6) Contact page has WhatsApp/Instagram/LinkedIn social links inside the Connect-With-Us card with correct data-testids, target='_blank', and WhatsApp href starts with https://wa.me/, (7) Contact form POST /api/contact still returns 200 — success state renders with CheckCircle2 icon (no mascot), (8) Navbar shows HOME/ABOUT/SERVICES/PORTFOLIO/CONTACT (plus START PROJECT CTA), BLOG remains removed, (9) Mobile responsiveness at 390x800 verified for /, /services, /services/social-media, /contact — scrollWidth == viewport width (390) on all, zero horizontal overflow. No broken images on Home or ServiceDetails. No console errors or warnings captured.",
+  "backend_issues": {
+    "critical": [],
+    "minor": []
+  },
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "test_report_links": ["/app/backend/tests/test_contact.py"],
+  "action_items": [],
+  "critical_code_review_comments": [
+    "App.tsx: ScrollToTop, SplashScreen, PageTransition all globally mounted inside WouterRouter — correct ordering.",
+    "SplashScreen.tsx: sessionStorage key 'mr_splash_seen' set after 2.2s timer; gracefully handles sessionStorage errors with try/catch.",
+    "PageTransition.tsx: firstRender ref correctly suppresses overlay on initial mount so it does not overlap with splash.",
+    "Contact.tsx: Social links use react-icons (SiWhatsapp/SiInstagram/FaLinkedin); LinkedIn URL pulled from REACT_APP_LINKEDIN_URL env with safe fallback. All 3 anchors have data-testid, target='_blank' and rel='noreferrer'.",
+    "ScrollToTop.tsx: Uses behavior:'auto' which is correct (instant) — avoids jarring smooth-scroll during route change.",
+    "Minor: Navbar text array includes 'START PROJECT' which is the CTA button — not an issue, just noting it's also rendered as an <a> inside <nav>."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "N/A (skipped per request)", "frontend": "100% (all 10 scenarios pass)"},
+  "test_credentials": "N/A — no auth in this app",
+  "seed_data_creation": "1 test contact submission created (TEST_QA Bot / test_qa@example.com) via the live form — POST /api/contact returned 200 and success state rendered. Main agent may want to purge TEST_ prefixed entries from contact_submissions collection if needed.",
+  "retest_needed": false,
+  "main_agent_can_self_test": true,
+  "context_for_next_testing_agent": "All iteration-2 frontend requirements verified end-to-end on https://marca-rise-analysis.preview.emergentagent.com. Splash uses sessionStorage.mr_splash_seen — always clear it before testing splash, set it before testing page-transition to avoid overlap. ScrollToTop relies on wouter useLocation; no router config changes needed. Backend POST /api/contact remains green (no regression).",
+  "rca of the issue": "N/A — no issues found this iteration."
+}
