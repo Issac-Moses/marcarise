@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   ArrowRight,
+  ChevronLeft,
   ChevronRight,
   TrendingUp,
   Star,
@@ -111,23 +112,33 @@ const galleryItems = [
 
 export default function Home() {
   const [selected, setSelected] = useState(null);
-const [isMobile, setIsMobile] = useState(
-  window.innerWidth < 768
-);
+  const [isMobile, setIsMobile] = useState(
+    window.innerWidth < 768
+  );
+  const carouselRef = useRef(null);
 
-useEffect(() => {
-
-  const handleResize = () => {
-    setIsMobile(window.innerWidth < 768);
+  const scrollCarousel = (direction) => {
+    if (!carouselRef.current) return;
+    const scrollAmount = carouselRef.current.offsetWidth * 0.7;
+    carouselRef.current.scrollBy({
+      left: direction === "left" ? -scrollAmount : scrollAmount,
+      behavior: "smooth",
+    });
   };
 
-  window.addEventListener("resize", handleResize);
+  useEffect(() => {
 
-  return () => {
-    window.removeEventListener("resize", handleResize);
-  };
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
 
-}, []);
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+
+  }, []);
   return (
     <div className="bg-[#f8f8f4] text-slate-900 overflow-hidden font-sans">
       <Navbar />
@@ -176,214 +187,72 @@ useEffect(() => {
       </h2>
     </div>
 
-    {/* CARD GRID */}
-    <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-10">
+    {/* CARD CAROUSEL WITH NAV ARROWS */}
+    <div className="relative group/carousel">
 
-      {galleryItems
-  .slice(0, isMobile ? 3 : 6)
-  .map((item, i) => {
+      {/* LEFT ARROW */}
+      <button
+        onClick={() => scrollCarousel("left")}
+        className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-20 w-12 h-12 bg-white/90 hover:bg-white rounded-full shadow-lg flex items-center justify-center opacity-0 group-hover/carousel:opacity-100 transition-all duration-300 hover:scale-110 cursor-pointer"
+      >
+        <ChevronLeft size={22} className="text-slate-700" />
+      </button>
 
-        return (
+      {/* RIGHT ARROW */}
+      <button
+        onClick={() => scrollCarousel("right")}
+        className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-20 w-12 h-12 bg-white/90 hover:bg-white rounded-full shadow-lg flex items-center justify-center opacity-0 group-hover/carousel:opacity-100 transition-all duration-300 hover:scale-110 cursor-pointer"
+      >
+        <ChevronRight size={22} className="text-slate-700" />
+      </button>
+
+      {/* SCROLLABLE TRACK */}
+      <div
+        ref={carouselRef}
+        className="flex gap-6 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-hide scroll-smooth"
+      >
+        {galleryItems.map((item, i) => (
           <motion.div
             key={i}
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            whileHover={{ y: -10 }}
-            transition={{ duration: 0.4 }}
-            className="bg-white rounded-sm overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 border border-slate-100"
+            transition={{ duration: 0.4, delay: i * 0.1 }}
+            className="flex-shrink-0 w-[80vw] sm:w-[60vw] md:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] snap-center group"
           >
-
-            {/* IMAGE */}
-            <div className="overflow-hidden">
+            <a
+              href={item.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block relative overflow-hidden rounded-xl"
+            >
               <img
                 src={item.image}
                 alt={item.title}
-                className="w-full h-[230px] object-cover hover:scale-105 transition-transform duration-700"
+                className="w-full h-[340px] object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
               />
-            </div>
-
-            {/* CONTENT */}
-            <div className="p-8">
-
-              <h3 className="text-4xl font-black mb-4 tracking-tight">
-                {item.title}
-              </h3>
-
-              <p className="text-slate-500 leading-relaxed mb-8">
-  {item.desc}
-</p>
-
-              {/* LIVE BUTTON */}
-              <a
-                href={item.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full bg-[#f1ecff] hover:bg-blue-600 hover:text-white transition-all duration-300 py-4 rounded-sm flex items-center justify-center gap-3 font-bold text-blue-600"
-              >
-                Live Link
-                <ArrowRight size={18} />
-              </a>
-
-            </div>
+              {/* LIGHT GRADIENT OVERLAY — stronger at bottom */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-xl" />
+              {/* PROJECT INFO — bottom-left */}
+              <div className="absolute bottom-0 left-0 p-7 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 ease-out">
+                <p className="text-white/50 text-[11px] uppercase tracking-[0.25em] font-semibold mb-1.5">
+                  {item.category}
+                </p>
+                <h3 className="text-white text-2xl font-black leading-tight mb-1.5">
+                  {item.title}
+                </h3>
+                <p className="text-white/70 text-sm leading-relaxed line-clamp-2 max-w-[90%]">
+                  {item.desc}
+                </p>
+              </div>
+            </a>
           </motion.div>
-        );
-      })}
+        ))}
+      </div>
     </div>
   </div>
 </section>
-{/* =========================
-   SPRINT SECTION
-========================= */}
 
-<section className="py-24 bg-white overflow-hidden">
-  <div className="max-w-5xl mx-auto px-6">
-
-    {/* HEADING */}
-    <div className="text-center mb-14">
-      <p className="uppercase tracking-[0.28em] text-xs text-blue-600 font-bold mb-4">
-        Sprint Process
-      </p>
-
-      <h2 className="text-4xl md:text-6xl font-black leading-tight">
-        Our <BlueHighlight>Workflow</BlueHighlight>
-      </h2>
-    </div>
-
-    {/* ITEMS */}
-    <div>
-
-      {[
-        {
-          title: "Research & Planning",
-          label: "STEP 01",
-          desc: "Understanding client goals and business strategy before starting the project.",
-          img: sprint1,
-        },
-
-        {
-          title: "Creative Team Work",
-          label: "STEP 02",
-          desc: "Designers and developers work together to create premium experiences.",
-          img: sprint2,
-        },
-
-        {
-          title: "UI/UX Sprint",
-          label: "STEP 03",
-          desc: "Modern responsive layouts with smooth interactions and premium design.",
-          img: sprint3,
-        },
-
-        {
-          title: "Development Phase",
-          label: "STEP 04",
-          desc: "Frontend and backend development with optimized performance.",
-          img: sprint4,
-        },
-
-        {
-          title: "Launch & Growth",
-          label: "STEP 05",
-          desc: "Testing, deployment and scaling support for long-term growth.",
-          img: sprint5,
-        },
-
-      ].map((item, i) => {
-
-        const reverse = i % 2 !== 0;
-
-        return (
-
-          <motion.div
-            key={i}
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="grid md:grid-cols-2"
-          >
-
-            {/* LEFT SIDE */}
-            {!reverse ? (
-
-              /* TEXT LEFT */
-              <div className="bg-gradient-to-br from-blue-700 to-blue-500 text-white min-h-[260px] flex flex-col justify-center p-10">
-
-                <p className="uppercase tracking-[0.25em] text-xs font-bold mb-4 text-white/70">
-                  {item.label}
-                </p>
-
-                <h3 className="text-3xl font-black leading-tight mb-5">
-                  {item.title}
-                </h3>
-
-                <p className="text-sm leading-relaxed text-white/80 max-w-md">
-                  {item.desc}
-                </p>
-
-              </div>
-
-            ) : (
-
-              /* IMAGE LEFT */
-              <div className="bg-white min-h-[260px] flex items-center justify-center overflow-hidden">
-
-                <motion.img
-                  whileHover={{ scale: 1.03 }}
-                  transition={{ duration: 0.3 }}
-                  src={item.img}
-                  alt={item.title}
-                  className="w-full h-full object-cover"
-                />
-
-              </div>
-
-            )}
-
-            {/* RIGHT SIDE */}
-            {!reverse ? (
-
-              /* IMAGE RIGHT */
-              <div className="bg-white min-h-[260px] flex items-center justify-center overflow-hidden">
-
-                <motion.img
-                  whileHover={{ scale: 1.03 }}
-                  transition={{ duration: 0.3 }}
-                  src={item.img}
-                  alt={item.title}
-                  className="w-full h-full object-cover"
-                />
-
-              </div>
-
-            ) : (
-
-              /* TEXT RIGHT */
-              <div className="bg-gradient-to-br from-blue-700 to-blue-500 text-white min-h-[260px] flex flex-col justify-center p-10">
-
-                <p className="uppercase tracking-[0.25em] text-xs font-bold mb-4 text-white/70">
-                  {item.label}
-                </p>
-
-                <h3 className="text-3xl font-black leading-tight mb-5">
-                  {item.title}
-                </h3>
-
-                <p className="text-sm leading-relaxed text-white/80 max-w-md">
-                  {item.desc}
-                </p>
-
-              </div>
-
-            )}
-
-          </motion.div>
-        );
-      })}
-    </div>
-  </div>
-</section>
 {/* TESTIMONIALS - CLEAN CARD STYLE */}
 <section className="py-32 bg-white px-6">
 
@@ -604,7 +473,6 @@ useEffect(() => {
   </div>
 </section>
 
-       {/* FAQ SECTION */}
 {/* FAQ SECTION */}
 <section className="py-32 px-6 bg-[#f6f4ff]">
 

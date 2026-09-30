@@ -18,6 +18,9 @@ import { ScrollToTop } from "@/components/ScrollToTop";
 import { PageTransition } from "@/components/PageTransition";
 
 import CalendlyCard from "./components/CalendlyCard";
+import MarcaAIChat from "./components/mj/MarcaAIChat";
+import CertificatePopup from "./components/mj/CertificatePopup";
+import Admin from "@/pages/Admin";
 
 const queryClient = new QueryClient();
 
@@ -43,6 +46,8 @@ function Router() {
       <Route path="/Portfolio" component={Portfolio} />
 
       <Route path="/blog" component={Blog} />
+
+      <Route path="/admin" component={Admin} />
 
       <Route component={Notfound} />
 
@@ -70,6 +75,10 @@ function App() {
 
           {/* ✅ HERE */}
           <CalendlyCard />
+
+          <MarcaAIChat />
+
+          <CertificatePopup />
 
         </WouterRouter>
 
