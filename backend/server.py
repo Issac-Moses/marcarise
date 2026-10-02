@@ -1079,24 +1079,16 @@ async def import_commit(
 
 app.include_router(api)
 
-cors_origins_env = os.environ.get("CORS_ORIGINS", "")
-if cors_origins_env and cors_origins_env != "*":
-    origins = cors_origins_env.split(",")
-    app.add_middleware(
-        CORSMiddleware,
-        allow_credentials=True,
-        allow_origins=origins,
-        allow_methods=["*"],
-        allow_headers=["*"],
-    )
-else:
-    app.add_middleware(
-        CORSMiddleware,
-        allow_credentials=True,
-        allow_origins=["https://marcarise.in", "https://www.marcarise.in", "http://localhost:3000"],
-        allow_methods=["*"],
-        allow_headers=["*"],
-    )
+# This API uses JWT Bearer tokens (Authorization header), NOT cookies.
+# Therefore allow_credentials=True is NOT needed and must NOT be combined
+# with allow_origins=["*"] — Starlette silently drops CORS headers in that case.
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=False,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 # ---------------------------------------------------------------- Startup
