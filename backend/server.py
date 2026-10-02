@@ -1079,16 +1079,24 @@ async def import_commit(
 
 app.include_router(api)
 
-app.add_middleware(
-    CORSMiddleware,
-    allow_credentials=True,
-    allow_origins=os.environ.get(
-        "CORS_ORIGINS",
-        "*",
-    ).split(","),
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+cors_origins_env = os.environ.get("CORS_ORIGINS", "")
+if cors_origins_env and cors_origins_env != "*":
+    origins = cors_origins_env.split(",")
+    app.add_middleware(
+        CORSMiddleware,
+        allow_credentials=True,
+        allow_origins=origins,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
+else:
+    app.add_middleware(
+        CORSMiddleware,
+        allow_credentials=True,
+        allow_origins=["https://marcarise.in", "https://www.marcarise.in", "http://localhost:3000"],
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
 
 
 # ---------------------------------------------------------------- Startup
